@@ -1,0 +1,15 @@
+# ignore all large datafiles
+*.arrow
+*.jld2
+
+# ignore weird artifacts
+dataframe.arrow:Zone.Identifier
+
+# ignore all plots
+*.png
+*.svg
+*.pdf
+
+# ignore all cluster errors and output files
+*.err
+*.out

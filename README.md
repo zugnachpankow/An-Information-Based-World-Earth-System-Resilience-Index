@@ -4,7 +4,7 @@
 Code base for the forthcoming publication on Information-Based World-Earth System Resilience
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
-[![DOI](https://img.shields.io/badge/DOI-blue)](https://doi.org/10.5281/zenodo.17100258)
+[![DOI](https://img.shields.io/badge/DOI-blue)](https://doi.org/10.5281/zenodo.17100929) 
 [![Julia 1.10.3](https://img.shields.io/badge/Julia-1.10.3-blueviolet)](https://julialang.org/downloads/)
 
 ---
@@ -108,7 +108,7 @@ This project is licensed under the [GNU Affero General Public License v3.0](http
 ## Citation
 If you use this code, please cite:
 
-- Software: [DOI of Zenodo software record](https://doi.org/10.5281/zenodo.17100258)  
+- Software: [DOI of Zenodo software record](https://doi.org/10.5281/zenodo.17100929)  
 - Dataset: [DOI of Zenodo dataset record](https://doi.org/10.5281/zenodo.17098743)
 
 The software accompanies: [TBD]().

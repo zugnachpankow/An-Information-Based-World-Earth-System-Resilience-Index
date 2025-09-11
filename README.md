@@ -4,7 +4,7 @@
 Code base for the forthcoming publication on Information-Based World-Earth System Resilience
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
-[![DOI](https://img.shields.io/badge/DOI-INSERT_DOI-blue)](https://doi.org/10.5281/zenodo.17100258)
+[![DOI](https://img.shields.io/badge/DOI-blue)](https://doi.org/10.5281/zenodo.17100258)
 [![Julia 1.10.3](https://img.shields.io/badge/Julia-1.10.3-blueviolet)](https://julialang.org/downloads/)
 
 ---
@@ -89,7 +89,7 @@ How to use this and reproduce results?
 If you want to extend the model or do your own work with it please get in touch, we can provide access to the working repo that includes tutorials.
 
 ## License
-This project is licensed under the GNU General Public License v3.0 (GPLv3). See the LICENSE file for details.
+This project is licensed under the [GNU Affero General Public License v3.0](https://www.gnu.org/licenses/agpl-3.0.html) (AGPL-3.0).
 
 ## Citation
 If you use this code, please cite:

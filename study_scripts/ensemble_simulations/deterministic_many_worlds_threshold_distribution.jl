@@ -1,3 +1,5 @@
+# © 2025 Max Bechthold, John M. Anderies and the IBRI team
+
 using ModelingToolkit, DifferentialEquations, Distributions, Roots, NLsolve, DataFrames, Arrow
 
 """Here we will distribute the climate threshold more realistically."""

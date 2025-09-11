@@ -1,3 +1,5 @@
+# © 2025 Max Bechthold, John M. Anderies and the IBRI team
+
 using ModelingToolkit, DifferentialEquations, DataFrames, Arrow
 
 """This script produces the resilience index results for the stochastic many worlds with shocks scenario.

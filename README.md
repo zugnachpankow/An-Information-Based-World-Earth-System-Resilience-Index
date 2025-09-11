@@ -66,7 +66,7 @@ The project uses the [julia](https://julialang.org/) language and some of its pa
 `cd An-Information-Based-World-Earth-System-Resilience-Index`
 
 ### Reproduce the Julia environment
-The Project.toml and Manifest.toml should ensure reproducability. Please follow the steps indicated below to ensure compatability. 
+The `Project.toml` and `Manifest.toml` should ensure reproducability. Please follow the steps indicated below to ensure compatability. 
 
 #### 1. Start Julia with this project environment
 `julia --project=.`

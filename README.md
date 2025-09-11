@@ -76,7 +76,12 @@ The project uses the [julia](https://julialang.org/) language and some of its pa
 `Pkg.instantiate()`
 
 ## Usage
-How to use this and reproduce results?
+How to use this after installation and reproduce results?
+
+### Getting Started/Example
+Please familiarise yourself with the model using the example `example/example.jl`. It plots some trajectories. If Julia is set up correctly, you should simply be able to run:
+
+`julia example.jl`
 
 ### How to obtain data
 - Download the dataset from [Zenodo](https://doi.org/10.5281/zenodo.17098743) and place the files in this folder.

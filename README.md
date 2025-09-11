@@ -4,7 +4,7 @@
 Code base for the forthcoming publication on Information-Based World-Earth System Resilience
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
-[![DOI](https://img.shields.io/badge/DOI-INSERT_DOI-blue)]()
+[![DOI](https://img.shields.io/badge/DOI-INSERT_DOI-blue)](https://doi.org/10.5281/zenodo.17100258)
 [![Julia 1.10.3](https://img.shields.io/badge/Julia-1.10.3-blueviolet)](https://julialang.org/downloads/)
 
 ---
@@ -92,7 +92,12 @@ If you want to extend the model or do your own work with it please get in touch,
 This project is licensed under the GNU General Public License v3.0 (GPLv3). See the LICENSE file for details.
 
 ## Citation
-TODO!
+If you use this code, please cite:
+
+- Software: [DOI of Zenodo software record](https://doi.org/10.5281/zenodo.17100258)  
+- Dataset: [DOI of Zenodo dataset record](https://doi.org/10.5281/zenodo.17098743)
+
+The software accompanies: [TBD]().
 
 ## Main Contributors
 - Max Bechthold 

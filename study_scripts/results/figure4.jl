@@ -1,29 +1,37 @@
-using ModelingToolkit, DifferentialEquations, Arrow, DataFrames, CSV, Statistics, Plots.PlotMeasures
+# © 2025 Max Bechthold, John M. Anderies and the IBRI team
+
+using ModelingToolkit, DifferentialEquations, Arrow, DataFrames, CSV, Statistics, Plots.PlotMeasures, Colors, ColorSchemes
+
+"""This script plots Figure 4 as found in the publication:
+It creates a plot showing the IBRI resilience index as a function of decarbonization point Tg and climate threshold G0 (A)
+and as a function of decarbonization point Tg and decarbonization rate re1 (B) with a reailistically distributed threshold.
+It also produces a CSV file with resulting overall resilience index values."""
 
 include("../../src/ibri_std_model.jl")
 include("../../src/ibri_analyses.jl")
 
-
 using .ibri_std_model_mod
 using .ibri_analyses_mod
-
 
 # define data and saving locations
 data_folder = "./data"
 save_folder = "./figures"
+results_folder = "./results"
 
 println("Loading Data...")
-df_g = DataFrame(Arrow.Table("/home/maxbecht/WES_Resilience/code/cluster_studies/E_isogrid_high_resolution_Y_over_P/dataframe.arrow"))
-df_s = DataFrame(Arrow.Table("/home/maxbecht/WES_Resilience/code/cluster_studies/E_deterministic_stochastic_threshold_high_resolution/dataframe.arrow"))
+df_g = DataFrame(Arrow.Table(joinpath(data_folder, "deterministic_many_worlds_gridded.arrow")))
+df_s = DataFrame(Arrow.Table(joinpath(data_folder, "deterministic_many_worlds_threshold_distribution.arrow")))
 println("Done Loading Data.")
 
-# full set
+# full info set, is same for both
 Tg_v = collect(4.2:0.01:6.2)
 G0_v = collect(4.2:0.01:6.2)
 sigma1_v = collect(0.01:0.01:0.1)
 re1_v = collect(0.01:0.01:0.15)
-re1_s = collect(0.0:0.005:0.1)
+re1_s = collect(0.0:0.005:0.1) # this one differs for the threshold distribution case
 
+# compute mean values for each parameter combination
+# and then reshape into matrix for plotting
 df_mean_g = combine(groupby(df_g, [:Tg, :G0]), :value => mean => :value_mean)
 res_dict_g = Dict((row.Tg, row.G0) => row.value_mean for row in eachrow(df_mean_g))
 res_matrix_g = [get(res_dict_g, (g0, tg), NaN) for g0 in G0_v, tg in Tg_v]
@@ -104,17 +112,42 @@ p = plot(p1, p2, cb;
 
 println("Done Plotting...")
 
+
 println("Saving...")
-savefig(p, joinpath(save_folder, "combined_det_resilience_maps.svg"))
-savefig(p, joinpath(save_folder, "combined_det_resilience_maps.png"))
-savefig(p, joinpath(save_folder, "combined_det_resilience_maps.pdf"))
+savefig(p, joinpath(save_folder, "figure4.svg"))
+savefig(p, joinpath(save_folder, "figure4.png"))
+savefig(p, joinpath(save_folder, "figure4.pdf"))
 println("Done Saving.")
 
+println("Calculating overall resilience index values...")
+# calculate overall resilience index values for both cases and sub cases
 
+# gridded
+total_res_g = mean(values(res_dict_g))
 
+# set R1
+Tg_r1 = collect(4.5:0.01:5.5)
+G0_r1 = collect(4.5:0.01:5.5)
+res_r1 = mean([get(res_dict_g, (tg, g0), NaN) for g0 in G0_r1, tg in Tg_r1])
 
+# set R2
+Tg_r2 = collect(4.7:0.01:5.2)
+G0_r2 = collect(4.4:0.01:5.2)
+res_r2 = mean([get(res_dict_g, (tg, g0), NaN) for g0 in G0_r2, tg in Tg_r2])
 
+# threshold distribution
+total_res_s = mean(values(res_dict_s))
 
+# 5% decarbonization rate
+Tg_r3 = collect(4.2:0.01:6.2)
+re_r3 = [0.05]
+res_r3 = mean([get(res_dict_s, (tg, re), NaN) for re in re_r3, tg in Tg_r3])
 
+# save to CSV
+df_res = DataFrame(
+    Metric = ["Total Gridded", "R1", "R2", "Total Threshold Distribution", "5% Decarb Rate"],
+    Resilience = [total_res_g, res_r1, res_r2, total_res_s, res_r3]
+)
 
-
+CSV.write(joinpath(results_folder, "overall_resilience_values_deterministic.csv"), df_res)
+println("Done Calculating.")

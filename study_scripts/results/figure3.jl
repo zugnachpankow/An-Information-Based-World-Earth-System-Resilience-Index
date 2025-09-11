@@ -1,4 +1,6 @@
-using ModelingToolkit, DifferentialEquations, Plots, DataFrames, Arrow, Random, Colors
+# © 2025 Max Bechthold, John M. Anderies and the IBRI team
+
+using ModelingToolkit, DifferentialEquations, Plots, DataFrames, Arrow, Random, Colors, ColorSchemes
 
 """This script plots Figure 3 as found in the publication:
 It creates a plot showing the Safe Operating Space (SOS) and Safe and Just Operating Space (SAJOS)"""

@@ -1,4 +1,11 @@
-using ModelingToolkit, DifferentialEquations, Plots, Arrow, DataFrames, Statistics, CSV, Plots.PlotMeasures
+# © 2025 Max Bechthold, John M. Anderies and the IBRI team
+
+using ModelingToolkit, DifferentialEquations, Plots, Arrow, DataFrames, Statistics, CSV, Plots.PlotMeasures, Colors, ColorSchemes
+
+"""This script plots Figure 6 as found in the publication:
+It creates a 2x2 panel plot comparing the resilience index results for the deterministic many worlds with gridded parameters (A),
+the stochastic many worlds with shocks (B), the stochastic many worlds with small multiplicative noise (C) and the stochastic many worlds with large multiplicative noise (D).
+It also produces a CSV file with resulting overall resilience index values."""
 
 # load models and modules
 include("../../src/ibri_std_model.jl")
@@ -8,18 +15,17 @@ include("../../src/ibri_analyses.jl")
 using .ibri_std_model_mod
 using .ibri_analyses_mod
 
-
 # define data and saving locations
 data_folder = "./data"
 save_folder = "./figures"
-
+results_folder = "./results"
 
 # load data
 println("Loading Data...")
-df_det = DataFrame(Arrow.Table("/home/maxbecht/WES_Resilience/code/cluster_studies/E_compare_stochastic_to_deterministic/dataframe.arrow"))
-df_shock = DataFrame(Arrow.Table("/home/maxbecht/WES_Resilience/code/cluster_studies/E_shocks/dataframe.arrow"))
-df_25 = DataFrame(Arrow.Table("/home/maxbecht/WES_Resilience/code/cluster_studies/E_stochastic_white_noise_small/dataframe.arrow"))
-df_75 = DataFrame(Arrow.Table("/home/maxbecht/WES_Resilience/code/cluster_studies/E_stochastic_white_noise_large/dataframe.arrow"))
+df_det = DataFrame(Arrow.Table(joinpath(data_folder, "deterministic_many_worlds_compare.arrow")))
+df_shock = DataFrame(Arrow.Table(joinpath(data_folder, "stochastic_many_worlds_shocks.arrow")))
+df_25 = DataFrame(Arrow.Table(joinpath(data_folder, "stochastic_many_worlds_mult_small_sigma.arrow")))
+df_75 = DataFrame(Arrow.Table(joinpath(data_folder, "stochastic_many_worlds_mult_large_sigma.arrow")))
 println("Done Loading Data.")
 
 
@@ -65,19 +71,6 @@ p2 = heatmap(G0_v*100, Tg_v*100, mats[2].*100, title=panel_titles[2], titlefont=
 p3 = heatmap(G0_v*100, Tg_v*100, mats[3].*100, title=panel_titles[3], titlefont=font(18), legend=false, xticks=:auto, yticks=:auto, tickfont=font(14), c=cgrad(:vik, rev=true), clim=(0,100))
 p4 = heatmap(G0_v*100, Tg_v*100, mats[4].*100, title=panel_titles[4], titlefont=font(18), legend=false, xticks=:auto, yticks=false, tickfont=font(14), c=cgrad(:vik, rev=true), clim=(0,100))
 
-# Save individual heatmaps for later reference
-savefig(p1, joinpath(save_folder, "heatmap_det.svg"))
-savefig(p1, joinpath(save_folder, "heatmap_det.png"))
-
-savefig(p2, joinpath(save_folder, "heatmap_shock.svg"))
-savefig(p2, joinpath(save_folder, "heatmap_shock.png"))
-
-savefig(p3, joinpath(save_folder, "heatmap_25.svg"))
-savefig(p3, joinpath(save_folder, "heatmap_25.png"))
-
-savefig(p4, joinpath(save_folder, "heatmap_75.svg"))
-savefig(p4, joinpath(save_folder, "heatmap_75.png"))
-
 # create colorbar (cb) 
 # to bypass the problem that Plots does not support one global colorbar, we create a "colorbar" as a "5th heatmap"
 cb_vals = (0:0.1:100) .* ones(1001,1) # need a high resolution here
@@ -102,11 +95,51 @@ l = @layout [
 ]
 
 # finally plot
-p = plot(ylab, p1, p2, p3, p4, xlabel_spacing, cb_spacing, cb;
+p = plot(ylabel_spacing, p1, p2, p3, p4, xlabel_spacing, cb_spacing, cb;
          layout = l, size=(1400,950),
          titlelocation=:left)
 
 # save
-savefig(p, joinpath(save_folder, "combined_resilience_maps.svg"))
-savefig(p, joinpath(save_folder, "combined_resilience_maps.png"))
-savefig(p, joinpath(save_folder, "combined_resilience_maps.pdf"))
+println("Saving...")
+savefig(p, joinpath(save_folder, "figure6.svg"))
+savefig(p, joinpath(save_folder, "figure6.png"))
+savefig(p, joinpath(save_folder, "figure6.pdf"))
+println("Done Saving.")
+
+
+println("Calculating overall resilience index values...")
+# calculate overall resilience index values for both cases and sub cases
+
+function resiliences(df, Tg_v, G0_v)
+    df_mean = combine(groupby(df, [:Tg, :G0]), :value => mean => :value_mean)
+    res_dict = Dict((row.Tg, row.G0) => row.value_mean for row in eachrow(df_mean))
+    total_res = mean(values(res_dict))
+    return total_res
+end
+
+# List of datasets and labels
+datasets = [
+    (df_det, "Deterministic"),
+    (df_shock, "Stochastic Shocks"),
+    (df_25, "Stochastic Small Noise"),
+    (df_75, "Stochastic Large Noise")
+]
+
+# Compute overall resilience for each dataset
+metrics = String[]
+resilience_values = Float64[]
+
+for (df, label) in datasets
+    push!(metrics, label)
+    push!(resilience_values, resiliences(df, Tg_v, G0_v))
+end
+
+# Create DataFrame
+df_res = DataFrame(
+    Metric = metrics,
+    Resilience = resilience_values
+)
+
+# Save to CSV
+CSV.write(joinpath(results_folder, "overall_resilience_values_stochastic.csv"), df_res)
+println("Done Calculating.")

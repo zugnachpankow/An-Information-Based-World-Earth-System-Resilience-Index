@@ -1,15 +1,16 @@
 # ignore all large datafiles
 *.arrow
-*.jld2
 
-# ignore weird artifacts
+# ignore Identifiers
 dataframe.arrow:Zone.Identifier
 
-# ignore all plots
-*.png
+# ignore vector plots
 *.svg
 *.pdf
 
 # ignore all cluster errors and output files
 *.err
 *.out
+
+# ignore all vscode settings
+.vscode/

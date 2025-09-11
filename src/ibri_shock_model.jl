@@ -186,41 +186,62 @@ eqs = [
     D(a₂) ~ γ₂*(an₂-a₂),
     ]
 
-    function construct_ode_system()
-        """This function is the main function to construct our model in ModelingToolkit."""
+    """
+    Constructs an ODE system from the defined equations.
+    """
+function construct_ode_system()
     
-        @named ode = ODESystem(eqs, t);
-    
-        return ode
-    
-    end # end of function
-    
-    
-    function construct_sde_system(ode, noiseeqs)
-    
-        @named sde = SDESystem(ode, noiseeqs)
-    
-        return sde
-    
-    end # end of function
-    
-    
-    function construct_ode_problem(ode, tspan, u0, p)
+    @named ode = ODESystem(eqs, t);
 
-        prob = ODEProblem(complete(ode), merge(Dict(u0), Dict(p)), tspan)
+    return ode
 
-        return prob
-        
-    end
+end # end of function
+
+    """Constructs an SDE system from an ODE system and noise equations.
+
+    Args:
+        ode: ODE system constructed with `construct_ode_system()`
+        noiseeqs: Array of noise equations corresponding to each state variable in the ODE system.
+    """
+function construct_sde_system(ode, noiseeqs)
+
+    @named sde = SDESystem(ode, noiseeqs)
+
+    return sde
+
+end # end of function
+
+"""Constructs an ODE problem from an ODE system, time span, initial conditions and parameters.
+
+Args:
+    ode: ODE system constructed with `construct_ode_system()`
+    tspan: Time span as a tuple, e.g. `(0.0, 100.0)`
+    u0: Initial conditions as an array of pairs, e.g. `[x=>1.0, y=>0.0]`
+    p: Parameters as an array of pairs, e.g. `[a=>0.1, b=>0.2]`
+"""
+function construct_ode_problem(ode, tspan, u0, p)
     
-    
-    function construct_sde_problem(sde, tspan, u0, p)
+    prob = ODEProblem(complete(ode), merge(Dict(u0), Dict(p)), tspan)
 
-        global prob=SDEProblem(complete(sde), merge(Dict(u0), Dict(p)), tspan);
-        
-        return prob
+    return prob
 
-    end # end of function
+end
+
+"""Constructs an SDE problem from an ODE system, time span, initial conditions and parameters.
+
+Args:
+    sde: SDE system constructed with `construct_sde_system()`
+    tspan: Time span as a tuple, e.g. `(0.0, 100.0)`
+    u0: Initial conditions as an array of pairs, e.g. `[x=>1.0, y=>0.0]`
+    p: Parameters as an array of pairs, e.g. `[a=>0.1, b=>0.2]`
+"""
+function construct_sde_problem(sde, tspan, u0, p)
+
+    global prob=SDEProblem(complete(sde), merge(Dict(u0), Dict(p)), tspan);
+
+    return prob
+
+end # end of function
     
     # other useful function
     # define excess carbon Function
@@ -229,7 +250,12 @@ eqs = [
         return concentration - base_concentration
     end
   
-
+    """exponential logistic function
+    Args:
+    x: input variable (e.g., carbon concentration)
+    λ₀: maximum value of the function
+    k: steepness of the curve
+    Gₚ: midpoint of the curve (inflection point)"""
     function expit(x, λ₀, k, Gₚ)
         return λ₀/(1+exp(-k*(x-Gₚ)))
     end#end function    

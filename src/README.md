@@ -1,6 +1,8 @@
 # src
 
-This folder contains the source code for the models and analyses used in the study. Each file implements a different model variant or analysis routine, primarily using Julia and ModelingToolkit.
+IMPORTANT NOTE: these files are not supposed to be run by themselves.
+
+This folder contains the source code for the models and analyses used in the study. Each file implements a different model variant or analysis routine, primarily using Julia and ModelingToolkit. 
 
 ## Contents
 - `ibri_analyses.jl`: Analysis functions for resilience and system dynamics.

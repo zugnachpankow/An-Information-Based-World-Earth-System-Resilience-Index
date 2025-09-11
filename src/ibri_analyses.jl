@@ -10,6 +10,7 @@ include("ibri_std_model.jl")
 
 """Calculates the resilience index for a solution sol and a given resilience condition.
 
+Args:
 sol: the solution of the ODE or SDE problem, where the output function returns G and Y/P for both regions at the last time step.
 res_condition: array, first entry gives ppm threshold, second one gives gdp per capita
 
@@ -30,6 +31,7 @@ end
 """Solves an ODE set for 6 parameters and their combinations. Post-processes.
 Here, sigma1 = sigma2 and re1 = re2.
 
+Args:
 prob: the ODE prob created with ModelingToolkit
 combs: the combinations of relevante sweeping parameters (σ, re, Tg and G0)
 res_condition: array, first entry gives ppm threshold, second one gives gdp per capita"""
@@ -57,6 +59,7 @@ end # end of function
 """Analysis where G0 is somehow drawn from a distribution.
 Must be passed as p1, i.e. an Array. The others are sweeped.
 
+Args:
 prob: the ODE prob
 p1: array of G0 values drawn from a distribution
 p2, p3, p4: arrays of the other sweeping parameters (Tg, sigma1, re1)
@@ -126,6 +129,7 @@ end
 
 """Do the resilience index analysis for a SDE problem, but here, sigma1 = sigma2 and re1 = re2.
 
+Args:
 prob: the SDE prob
 N_ens: number of ensemble members per combination of parameters
 p1, p2, p3, p4: arrays of the sweeping parameters (G0, Tg, sigma1, re1)
@@ -192,6 +196,7 @@ end
 
 """Do the resilience index analysis for a jump SDE problem.
 
+Args:
 prob: the jump prob
 N_ens: number of ensemble members per combination of parameters
 p1, p2, p3, p4: arrays of the sweeping parameters (G0, Tg, sigma1, re1)
@@ -257,6 +262,7 @@ end
 
 """Util Function to calculate excess CO2 above pre-industrial.
 
+Args:
 concentration: CO2 concentration in 100 ppm"""
 function excess_CO2(concentration)
 
@@ -267,6 +273,7 @@ end
 
 """Saves a config.
 
+Args:
 PATH = path where to save
 prob = ODE or SDEProblem (this contains tspan etc. as well, but in a strange format)
 tspan = timeframe

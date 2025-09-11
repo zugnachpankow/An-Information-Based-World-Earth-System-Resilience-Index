@@ -12,13 +12,15 @@ include("ibri_shock_model.jl")
 
 #-----definition of relevant functions-----
 
+"""Do the resilience index analysis for a jump/shock SDE problem.
 
+Args:
+prob: the jump prob
+N_ens: number of ensemble members per combination of parameters
+p1, p2, p3, p4: arrays of the sweeping parameters (G0, Tg, sigma1, re1)
+res_condition: array, first entry gives ppm threshold, second one gives gdp per capita"""
 function ensemble_jump_analysis_same_regions_safe_and_just(prob, N_ens, p1, p2, p3, p4, res_condition)
-    """
-    Do the resilience index analysis for a jump SDE problem, but
-    here, sigma1 = sigma2 and re1 = re2.
-    lambda, k, Gp are the parameters for the expit
-    """
+
     combs = collect(Iterators.product(p1, p2, p3, p4))
     N_traj = length(combs) * N_ens
     N_combs = length(combs)

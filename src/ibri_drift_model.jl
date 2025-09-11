@@ -194,16 +194,20 @@ eqs = [
     D(e₂) ~ -z*re₂*e₂, # decarbonization in region 2
 ]
 
+"""Initiaties ODE system."""
 function construct_ode_system()
-    """This function is the main function to construct our model in ModelingToolkit."""
-
     @named ode = ODESystem(eqs, t);
 
     return ode
 
 end # end of function
 
+"""Initiates SDE system from ODE system and noise equations.
 
+Args:
+    ode: ODE system constructed with `construct_ode_system()`
+    noiseeqs: Noise equations in the form of an array of equations, e.g. `[D(x) ~ σ*x*W₁, D(y) ~ σ*y*W₂]` where `W₁` and `W₂` are Wiener processes.
+"""
 function construct_sde_system(ode, noiseeqs)
 
     @named sde = SDESystem(ode, noiseeqs)
@@ -212,57 +216,30 @@ function construct_sde_system(ode, noiseeqs)
 
 end # end of function
 
+"""Constructs an ODE problem from an ODE system, time span, initial conditions and parameters.
 
+Args:
+    ode: ODE system constructed with `construct_ode_system()`
+    tspan: Time span as a tuple, e.g. `(0.0, 100.0)`
+    u0: Initial conditions as an array of pairs, e.g. `[x=>1.0, y=>0.0]`
+    p: Parameters as an array of pairs, e.g. `[a=>0.1, b=>0.2]`
+"""
 function construct_ode_problem(ode, tspan, u0, p)
-    """
-    run_time: e.g. (0.0,1000.0)
-    initial_conditions: [P₁=>0.24,P₂=>0.24,K₁=>0,K₂=>0,G=>2.8,e₁=>0.0004,e₂=>0.0004,z=>0]
-    parameters: p=[r₁=>
-    0.038, Kp₁=>1.5, #population growth, carrying capacity
-    r₂=>0.042, Kp₂=>9.7, #population growth, carrying capacity
-    ml₁₂=>10, ml₂₁=>10, mp₁₂=>10, mp₂₁=>10, #migration preference parameters
-    r₁₂=>0, r₂₁=>0, #migration rates
-    α₁=>0.5, α₂=>0.5, #capital factor productivity
-    a₁=>2.7, a₂=>1.7, #total factor productivity
-    δ₁=>0.05, δ₂=>0.05, #capital entropic decay rates  
-    s₁=>0.25, s₂=>0.21, #savings rates (of disposable income)
-    Cₘ₁=>0.7, Cₘ₂=>0.7, #minimum subsistence consumption
-    σ₁=>0.03, σ₂=>0.03, dmₓ=> 100, #climate damages on infrastructure
-    re₁=>0.1, re₂=>0.1, eb=>0.00004, Tg=>4.5,  #decarb, #carbon intensities
-    η=>1, #rate at which decarbonization is initiated
-    u=>0.0025, α=>0.1, #earth system carbon uptake and release
-    G₁=>5, G₀=>6.0, Gₘ=>20 #G1=damage threshold, G₀ = climate threshold, Gₘ = max atm carbon 
-    ];
-    """
-
     prob = ODEProblem(complete(ode), merge(Dict(u0), Dict(p)), tspan)
 
     return prob
 
 end
 
+"""Constructs an SDE problem from an ODE system, time span, initial conditions and parameters.
 
+Args:
+    sde: SDE system constructed with `construct_sde_system()`
+    tspan: Time span as a tuple, e.g. `(0.0, 100.0)`
+    u0: Initial conditions as an array of pairs, e.g. `[x=>1.0, y=>0.0]`
+    p: Parameters as an array of pairs, e.g. `[a=>0.1, b=>0.2]`
+"""
 function construct_sde_problem(sde, tspan, u0, p)
-    """
-    run_time: e.g. (0.0,1000.0)
-    initial_conditions: [P₁=>0.24,P₂=>0.24,K₁=>0,K₂=>0,G=>2.8,e₁=>0.0004,e₂=>0.0004,z=>0]
-    parameters: p=[r₁=>
-    0.038, Kp₁=>1.5, #population growth, carrying capacity
-    r₂=>0.042, Kp₂=>9.7, #population growth, carrying capacity
-    ml₁₂=>10, ml₂₁=>10, mp₁₂=>10, mp₂₁=>10, #migration preference parameters
-    r₁₂=>0, r₂₁=>0, #migration rates
-    α₁=>0.5, α₂=>0.5, #capital factor productivity
-    a₁=>2.7, a₂=>1.7, #total factor productivity
-    δ₁=>0.05, δ₂=>0.05, #capital entropic decay rates  
-    s₁=>0.25, s₂=>0.21, #savings rates (of disposable income)
-    Cₘ₁=>0.7, Cₘ₂=>0.7, #minimum subsistence consumption
-    σ₁=>0.03, σ₂=>0.03, dmₓ=> 100, #climate damages on infrastructure
-    re₁=>0.1, re₂=>0.1, eb=>0.00004, Tg=>4.5,  #decarb, #carbon intensities
-    η=>1, #rate at which decarbonization is initiated
-    u=>0.0025, α=>0.1, #earth system carbon uptake and release
-    G₁=>5, G₀=>6.0, Gₘ=>20 #G1=damage threshold, G₀ = climate threshold, Gₘ = max atm carbon 
-    ];
-    """
     global prob=SDEProblem(complete(sde), merge(Dict(u0), Dict(p)), tspan);
 
     return prob

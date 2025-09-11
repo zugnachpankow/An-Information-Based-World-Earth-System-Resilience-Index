@@ -1,3 +1,5 @@
+# © 2025 Max Bechthold, John M. Anderies and the IBRI team
+
 module ibri_shock_drift_model_mod
 
 using ModelingToolkit, DifferentialEquations
@@ -209,7 +211,7 @@ eqs = [
     
     function construct_ode_problem(ode, tspan, u0, p)
 
-        prob = ODEProblem(complete(ode), u0, tspan, p)
+        prob = ODEProblem(complete(ode), merge(Dict(u0), Dict(p)), tspan)
 
         return prob
         
@@ -218,7 +220,7 @@ eqs = [
     
     function construct_sde_problem(sde, tspan, u0, p)
 
-        global prob=SDEProblem(complete(sde), u0, tspan, p);
+        global prob=SDEProblem(complete(sde), merge(Dict(u0), Dict(p)), tspan);
         
         return prob
 

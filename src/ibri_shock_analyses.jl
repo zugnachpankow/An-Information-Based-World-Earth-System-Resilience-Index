@@ -1,10 +1,12 @@
+# © 2025 Max Bechthold, John M. Anderies and the IBRI team
+
 module ibri_shock_analyses_mod
 # creates the moduls
 
 # relevant imports
 using ModelingToolkit, DifferentialEquations
 
-# includes the model from the model WESR
+# includes the model from the model ibri
 include("ibri_shock_model.jl")
 
 

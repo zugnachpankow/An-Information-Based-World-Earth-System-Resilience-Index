@@ -1,8 +1,10 @@
+# © 2025 Max Bechthold, John M. Anderies and the IBRI team
+
 module ibri_analyses_mod # creates the module
 
 using ModelingToolkit, DifferentialEquations # relevant imports
 
-# includes the file from the model WESR for the namespace
+# includes the file from the model ibri for the namespace
 include("ibri_std_model.jl")
 
 

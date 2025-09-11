@@ -61,18 +61,19 @@ The project uses the [julia](https://julialang.org/) language and some of its pa
 - ColorSchemes: https://github.com/JuliaGraphics/ColorSchemes.jl
 
 ### Clone the repository
-git clone https://github.com/zugnachpankow/An-Information-Based-World-Earth-System-Resilience-Index.git
-cd An-Information-Based-World-Earth-System-Resilience-Index
+`git clone https://github.com/zugnachpankow/An-Information-Based-World-Earth-System-Resilience-Index.git`
+
+`cd An-Information-Based-World-Earth-System-Resilience-Index`
 
 ### Reproduce the Julia environment
 
 #### 1. Start Julia with this project environment
-julia --project=.
+`julia --project=.`
 
 #### 2. Inside the Julia REPL, run:
-using Pkg
+`using Pkg`
 
-Pkg.instantiate()
+`Pkg.instantiate()`
 
 ## Usage
 How to use this and reproduce results?
@@ -82,8 +83,8 @@ How to use this and reproduce results?
 - Alternatively, you can generate the data by running the scripts in `study_scripts/ensemble_simulations/`. If run on a hpc, remember to adjust paths and batch scripts. 
 
 ### How to reproduce publication figures
-- Either download the dataset or run scripts in study_scripts/ensemble_simulations locally or on a cluster.
-- Then run the scripts in study_scripts/results, this will create plots in /figures and CSV files with overall resiliences in /results.
+- Either download the dataset or run scripts in `study_scripts/ensemble_simulations` locally or on a cluster.
+- Then run the scripts in `study_scripts/results`, this will create plots in `/figures` and CSV files with overall resiliences in `/results`.
 
 ### How to do Your own analysis
 If you want to extend the model or do your own work with it please get in touch, we can provide access to the working repo that includes tutorials.

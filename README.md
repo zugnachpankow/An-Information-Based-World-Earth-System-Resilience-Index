@@ -66,6 +66,7 @@ The project uses the [julia](https://julialang.org/) language and some of its pa
 `cd An-Information-Based-World-Earth-System-Resilience-Index`
 
 ### Reproduce the Julia environment
+The Project.toml and Manifest.toml should ensure reproducability. Please follow the steps indicated below to ensure compatability. 
 
 #### 1. Start Julia with this project environment
 `julia --project=.`
@@ -75,16 +76,23 @@ The project uses the [julia](https://julialang.org/) language and some of its pa
 
 `Pkg.instantiate()`
 
+Leave Julia to get back to shell:
+`exit()'
+
+#### 3. Run code as:
+From shell run:
+`julia --project=. example.jl`
+
 ## Usage
 How to use this after installation and reproduce results?
 
 ### Getting Started/Example
-Please familiarise yourself with the model using the example `example/example.jl`. It plots some trajectories. If Julia is set up correctly, you should simply be able to run:
+Please familiarise yourself with the model using the example `example/example.jl`. It plots some trajectories. If Julia is set up correctly, you should simply (after navigating to `example/` with `cd`) be able to run:
 
-`julia example.jl`
+`julia --project=. example.jl`
 
 ### How to obtain data
-- Download the dataset from [Zenodo](https://doi.org/10.5281/zenodo.17098743) and place the files in this folder.
+- Download the dataset from [Zenodo](https://doi.org/10.5281/zenodo.17098743) and place the files in this folder. Filesizes are some MB, besides the large high-resolution sweep, which has 250 MB.
 - Alternatively, you can generate the data by running the scripts in `study_scripts/ensemble_simulations/`. If run on a hpc, remember to adjust paths and batch scripts. 
 
 ### How to reproduce publication figures

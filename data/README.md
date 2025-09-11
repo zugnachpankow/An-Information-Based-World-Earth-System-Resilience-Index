@@ -7,7 +7,7 @@ This folder contains the data files required for running analyses and reproducin
 - Alternatively, you can generate the data by running the scripts in `study_scripts/ensemble_simulations/`.
 
 ## Data formats
-- Data files are in `.arrow` format.
+- Data files are in `.arrow` format. They contain post-processes resilience calculations, i.e. for the deterministic value each parameter combination is attributed 0 or 1 and for the stochastic version a mean resilience value for the Monte Carlo simulation between 0 and 1.
 
 ## Usage
 - Ensure the required data files are present before running analysis or plotting scripts.

@@ -113,7 +113,7 @@ If you use this code, please cite:
 
 The software accompanies: [TBD]().
 
-## Main Contributors
+## Main Developers
 - Max Bechthold 
 - John M. Anderies
 

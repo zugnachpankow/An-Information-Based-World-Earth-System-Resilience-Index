@@ -1,6 +1,6 @@
 # © 2025 Max Bechthold, John M. Anderies and the IBRI team
 
-using ModelingToolkit, DifferentialEquations, Arrow, DataFrames, CSV, Statistics, Plots.PlotMeasures, Colors, ColorSchemes
+using ModelingToolkit, DifferentialEquations, Arrow, DataFrames, CSV, Statistics, Plots, Plots.PlotMeasures, Colors, ColorSchemes
 
 """This script plots Figure 4 as found in the publication:
 It creates a plot showing the IBRI resilience index as a function of decarbonization point Tg and climate threshold G0 (A)
@@ -45,8 +45,8 @@ println("Plotting...")
 # set titles
 panel_titles = ["A", "B"]
 
-# heatmap, moving from fractionals to percentages
-p1 = heatmap(G0_v*100, Tg_v*100, res_matrix_g.* 100,  # note the transpose!
+# heatmap, staying with fractionals 
+p1 = heatmap(G0_v*100, Tg_v*100, res_matrix_g,  # note the transpose!
     c = cgrad(:vik, rev=true),
     legend = false,
     title = panel_titles[1],
@@ -54,13 +54,13 @@ p1 = heatmap(G0_v*100, Tg_v*100, res_matrix_g.* 100,  # note the transpose!
     xticks=:auto, 
     yticks=:auto, 
     tickfont=font(14), 
-    clim = (0,100),
+    clim = (0,1),
     xlabel = "Climate Threshold G₀ [ppm]",
     xguidefontsize=18,
     ylabel = "Decarbonizationpoint Tg [ppm]",
     yguidefontsize=18,
-    xlims = (minimum(G0_v)*100, maximum(G0_v)*100),
-    ylims = (minimum(Tg_v)*100, maximum(Tg_v)*100)
+    xlims = (minimum(G0_v*100), maximum(G0_v*100)),
+    ylims = (minimum(Tg_v*100), maximum(Tg_v*100))
 )
 
 
@@ -73,13 +73,13 @@ plot!([440, 520, 520, 440, 440],
       color=:white, lw=2, linestyle=:dash, label="R2")
 
 # i need to bypass the standard legend command as it will trigger a colorbar
-legend_x = minimum(G0_v)*100 + 20  # 20 units inset from the left
-legend_y = maximum(Tg_v)*100 - 10  # 10 units inset from the top
+legend_x = minimum(G0_v) + 20  # 20 units inset from the left
+legend_y = maximum(Tg_v) - 10  # 10 units inset from the top
 
 annotate!(legend_x + 25 + 4, legend_y - 4, text("Solid: Resilience Set R1", 12, :white))
 annotate!(legend_x + 29.5 + 4, legend_y - 16, text("Dashed: Resilience Set R2", 12, :white))
 
-p2 = heatmap(re1_s*100, Tg_v*100, res_matrix_s .* 100,
+p2 = heatmap(re1_s*100, Tg_v*100, res_matrix_s,
     c = cgrad(:vik, rev=true),
     legend = false,
     title = panel_titles[2],
@@ -87,18 +87,18 @@ p2 = heatmap(re1_s*100, Tg_v*100, res_matrix_s .* 100,
     xticks=:auto, 
     yticks=false, 
     tickfont=font(14),
-    clim = (0,100),
+    clim = (0,1),
     xlabel = "Decarbonization Efforts per Region [%/yr]",
     xguidefontsize=18,
     ylabel = "",
     xlims = (0.0, 10),
-    ylims = (minimum(Tg_v)*100, maximum(Tg_v)*100)
+    ylims = (minimum(Tg_v*100), maximum(Tg_v*100))
 )
 
 # create colorbar (cb) 
 # to bypass the problem that Plots does not support one global colorbar, we create a "colorbar" as a "5th heatmap"
-cb_vals = (0:0.1:100) .* ones(1001,1) # need a high resolution here
-cb = heatmap(cb_vals, c=cgrad(:vik, rev=true), legend=false, xticks=false, yticks=(1:100:1001, string.(0:10:100)), tickfont=font(14), ylabel="Resilience Index IBRI [%]", yguidefontsize=18)
+cb_vals = (0:0.001:1) .* ones(1001,1) # need a high resolution here
+cb = heatmap(cb_vals, c=cgrad(:vik, rev=true), legend=false, xticks=false, yticks=(1:100:1001, string.(0:0.1:1)), tickfont=font(14), ylabel="Resilience Index IBRI", yguidefontsize=18)
 
 # use layout with the corresponding elements and widths/heigths (in fractions)
 l = @layout [

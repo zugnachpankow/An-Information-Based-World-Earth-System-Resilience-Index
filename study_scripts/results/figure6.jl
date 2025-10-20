@@ -66,15 +66,15 @@ mats = [
 panel_titles = ["A", "B", "C", "D"]
 
 # create heatmaps
-p1 = heatmap(G0_v*100, Tg_v*100, mats[1].*100, title=panel_titles[1], titlefont=font(18), legend=false, xticks=false, yticks=:auto, tickfont=font(14), c=cgrad(:vik, rev=true), clim=(0,100))
-p2 = heatmap(G0_v*100, Tg_v*100, mats[2].*100, title=panel_titles[2], titlefont=font(18), legend=false, xticks=false, yticks=false, tickfont=font(14), c=cgrad(:vik, rev=true), clim=(0,100))
-p3 = heatmap(G0_v*100, Tg_v*100, mats[3].*100, title=panel_titles[3], titlefont=font(18), legend=false, xticks=:auto, yticks=:auto, tickfont=font(14), c=cgrad(:vik, rev=true), clim=(0,100))
-p4 = heatmap(G0_v*100, Tg_v*100, mats[4].*100, title=panel_titles[4], titlefont=font(18), legend=false, xticks=:auto, yticks=false, tickfont=font(14), c=cgrad(:vik, rev=true), clim=(0,100))
+p1 = heatmap(G0_v*100, Tg_v*100, mats[1], title=panel_titles[1], titlefont=font(18), legend=false, xticks=false, yticks=:auto, tickfont=font(14), c=cgrad(:vik, rev=true), clim=(0,1))
+p2 = heatmap(G0_v*100, Tg_v*100, mats[2], title=panel_titles[2], titlefont=font(18), legend=false, xticks=false, yticks=false, tickfont=font(14), c=cgrad(:vik, rev=true), clim=(0,1))
+p3 = heatmap(G0_v*100, Tg_v*100, mats[3], title=panel_titles[3], titlefont=font(18), legend=false, xticks=:auto, yticks=:auto, tickfont=font(14), c=cgrad(:vik, rev=true), clim=(0,1))
+p4 = heatmap(G0_v*100, Tg_v*100, mats[4], title=panel_titles[4], titlefont=font(18), legend=false, xticks=:auto, yticks=false, tickfont=font(14), c=cgrad(:vik, rev=true), clim=(0,1))
 
 # create colorbar (cb) 
 # to bypass the problem that Plots does not support one global colorbar, we create a "colorbar" as a "5th heatmap"
-cb_vals = (0:0.1:100) .* ones(1001,1) # need a high resolution here
-cb = heatmap(cb_vals, c=cgrad(:vik, rev=true), legend=false, xticks=false, yticks=(1:100:1001, string.(0:10:100)), tickfont=font(14), ylabel="Resilience Index IBRI [%]", yguidefontsize=18)
+cb_vals = (0:0.001:1) .* ones(1001,1) # need a high resolution here
+cb = heatmap(cb_vals, c=cgrad(:vik, rev=true), legend=false, xticks=false, yticks=(1:100:1001, string.(0:0.1:1)), tickfont=font(14), ylabel="Resilience Index IBRI", yguidefontsize=18)
 
 # same problem for shared x and ylabels, so we create these additional spacings
 xlabel_spacing = plot(legend=false, framestyle=:none, xaxis=false, yaxis=false, margin=0mm)

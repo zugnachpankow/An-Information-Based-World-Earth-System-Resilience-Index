@@ -1,6 +1,4 @@
 # An-Information-Based-World-Earth-System-Resilience-Index
-
-# Project Title
 Code base for the forthcoming publication on Information-Based World-Earth System Resilience
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
@@ -26,8 +24,6 @@ Navigating the challenges of the anthropogenic World-Earth system requires robus
 
 Link to the preprint (forthcoming): [TBD]().
 
----
-
 ## Features
 - Implements an information-based resilience index for a World-Earth system
 - Extends the [Anderies et al. 2023](https://iopscience.iop.org/article/10.1088/1748-9326/ace91d) model
@@ -35,6 +31,9 @@ Link to the preprint (forthcoming): [TBD]().
 - Provides tools for deterministic and stochastic scenario analysis
 - Includes scripts for generating publication-quality figures from simulation outputs
 - Designed for reproducibility on local machines and HPC clusters
+
+## Example trajectories
+![Example plot](figures/figure3.png)
 
 ---
 
@@ -83,6 +82,8 @@ Leave Julia to get back to shell:
 From shell run:
 `julia --project=. example.jl`
 
+---
+
 ## Usage
 How to use this after installation and reproduce results?
 
@@ -101,6 +102,8 @@ Please familiarise yourself with the model using the example `example/example.jl
 
 ### How to do Your own analysis
 If you want to extend the model or do your own work with it please get in touch, we can provide access to the working repo that includes tutorials.
+
+---
 
 ## License
 This project is licensed under the [GNU Affero General Public License v3.0](https://www.gnu.org/licenses/agpl-3.0.html) (AGPL-3.0).

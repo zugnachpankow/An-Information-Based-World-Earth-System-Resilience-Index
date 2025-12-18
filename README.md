@@ -122,3 +122,10 @@ The software accompanies: [TBD]().
 
 ## Main Contact
 - Max Bechthold <maxbecht@pik-potsdam.de>
+
+## Further contributions
+- Jonathan F. Donges
+- Ingo Fetzer
+- Nico Wunderling
+- Wolfram Barfuss
+- Johan Rockström
